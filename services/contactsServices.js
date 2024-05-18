@@ -1,57 +1,60 @@
-const fs = require("fs/promises");
-const path = require("path");
-const { nanoid } = require("nanoid");
+import fs from "fs/promises";
+import path from "path";
+import { nanoid } from "nanoid";
 
-const contactsPath = path.join(__dirname, "./db/contacts.json");
+const contactsPath = path.resolve("db", "contacts.json");
 
-const listContacts = async () => {
-  const data = await fs.readFile(contactsPath, "utf-8");
-  const parsedData = JSON.parse(data);
-  return parsedData;
-};
+export async function listContacts() {
+  const list = await fs.readFile(contactsPath, "utf-8");
+  return JSON.parse(list);
+}
 
-const getContactById = async (id) => {
-  const contacts = await listContacts();
-  const result = contacts.find((contact) => contact.id === id);
-  return result || null;
-};
+export async function getContactById(contactId) {
+  const list = await listContacts();
+  const contact = list.find(({ id }) => contactId === id);
+  return contact || null;
+}
 
-const addContact = async (data) => {
-  const contacts = await listContacts();
+export async function removeContact(contactId) {
+  const list = await listContacts();
+  const index = list.findIndex(({ id }) => contactId === id);
 
-  const existingContact = contacts.find(
-    (contact) => contact.email === data.email
-  );
+  if (index === -1) return null;
 
-  if (existingContact) {
-    console.log("Сontact with this email already exists.");
-    return null;
-  }
+  const [deletedContact] = list.splice(index, 1);
+  await writeFile(list);
 
-  const newContact = {
+  return deletedContact;
+}
+
+export async function addContact(data) {
+  const list = await listContacts();
+  const contact = {
     id: nanoid(),
     ...data,
   };
-  contacts.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return newContact;
-};
 
-const removeContact = async (id) => {
-  const contacts = await listContacts();
-  const index = contacts.findIndex((contact) => contact.id === id);
-  if (index === -1) {
-    console.log("Such a contact does not exist in the database.");
-    return null;
-  }
-  const [result] = contacts.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return result;
-};
+  list.push(contact);
+  await writeFile(list);
 
-module.exports = {
-  listContacts,
-  getContactById,
-  removeContact,
-  addContact,
-};
+  return contact;
+}
+
+export async function updateContact(contactId, data) {
+  const list = await listContacts();
+  const index = list.findIndex(({ id }) => contactId === id);
+
+  if (index === -1) return null;
+
+  list[index] = {
+    ...list[index],
+    ...data,
+  };
+  await writeFile(list);
+
+  return list[index];
+}
+
+async function writeFile(data) {
+  await fs.writeFile(contactsPath, JSON.stringify(data, 2, 1));
+}
