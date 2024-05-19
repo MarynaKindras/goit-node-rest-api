@@ -2,6 +2,8 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import router from "./routes/index.js";
+import mongoose from "mongoose";
+import "dotenv/config";
 
 const PORT = 3000;
 
@@ -25,3 +27,10 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Server is running. Use our API on port: ${PORT}`);
 });
+
+const DB_HOST =
+  "mongodb+srv://Maryna:PJwXHEo2mSK0W15Z@cluster0.dg6gmsz.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0";
+
+mongoose.connect(DB_HOST);
+
+//PJwXHEo2mSK0W15Z
