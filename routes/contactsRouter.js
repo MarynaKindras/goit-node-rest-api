@@ -2,7 +2,7 @@ import express from "express";
 import contactsController from "../controllers/contactsControllers.js";
 import isBodyEmpty from "../middleware/isBodyEmpty.js";
 import validateBody from "../helpers/validateBody.js";
-import { createContactSchema, updateContactSchema } from "../schemas/contactsSchemas.js";
+import { createContactSchema, updateContactSchema, updateStatusContactSchema } from "../schemas/contactsSchemas.js";
 import isValidId from "../middleware/isValidId.js";
 
 const contactsRouter = express.Router();
