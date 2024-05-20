@@ -5,7 +5,7 @@ import router from "./routes/index.js";
 import mongoose from "mongoose";
 import "dotenv/config";
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
@@ -28,9 +28,15 @@ app.listen(PORT, () => {
   console.log(`Server is running. Use our API on port: ${PORT}`);
 });
 
-const DB_HOST =
-  "mongodb+srv://Maryna:PJwXHEo2mSK0W15Z@cluster0.dg6gmsz.mongodb.net/db-contacts?retryWrites=true&w=majority&appName=Cluster0";
-
-mongoose.connect(DB_HOST);
-
-//PJwXHEo2mSK0W15Z
+mongoose
+  .connect(process.env.DB_HOST)
+  .then(() => {
+    console.log("\x1b[34m Database connection successful");
+    app.listen(PORT, () => {
+      console.log(`Server is running. Use our API on port: ${PORT}`);
+    });
+  })
+  .catch(error => {
+    console.log("\x1b[31m Error during connection to database \n", error);
+    process.exit(1);
+  });
