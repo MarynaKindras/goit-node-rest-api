@@ -3,8 +3,19 @@ import HttpError from "../helpers/HttpError.js";
 import * as contactsService from "../services/contactsServices.js";
 
 const getAllContacts = async (req, res) => {
-  const result = await contactsService.listContacts();
-  res.json(result);
+  const { _id: owner } = req.user;
+  const { page = 1, limit = 5, favorite } = req.query;
+
+  const filter = { owner, ...(favorite && { favorite }) };
+  const fields = "-createdAt -updatedAt";
+  const options = {
+    skip: (page - 1) * limit,
+    limit,
+  };
+
+  const result = await contactsService.getContacts(filter, fields, options);
+  const total = await contactsService.countContacts(filter);
+  res.json({ data: result, total, page: Number(page) });
 };
 
 const getOneContact = async (req, res) => {
