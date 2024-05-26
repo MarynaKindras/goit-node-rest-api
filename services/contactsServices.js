@@ -1,22 +1,22 @@
-import fs from "fs/promises";
-import path from "path";
-import { nanoid } from "nanoid";
 import Contact from "../models/Contact.js";
 
-const contactsPath = path.resolve("db", "contacts.json");
-
-export async function listContacts() {
-  const contacts = await Contact.find();
+export async function getContacts(filter = {}, fields = "", options = {}) {
+  const contacts = await Contact.find(filter, fields, options).populate("owner", "email subscription");
   return contacts;
 }
 
-export async function getContactById(contactId) {
-  const contact = await Contact.findById(contactId);
+export async function countContacts(filter) {
+  const count = await Contact.countDocuments(filter);
+  return count;
+}
+
+export async function getContact(filter) {
+  const contact = await Contact.findOne(filter);
   return contact;
 }
 
-export async function removeContact(contactId) {
-  const contact = await Contact.findByIdAndDelete(contactId);
+export async function removeContact(filter) {
+  const contact = await Contact.findOneAndDelete(filter);
   return contact;
 }
 
@@ -25,12 +25,12 @@ export async function addContact(data) {
   return contact;
 }
 
-export async function updateContact(contactId, data) {
-  const contact = await Contact.findByIdAndUpdate(contactId, data, { new: true });
+export async function updateContact(filter, data) {
+  const contact = await Contact.findOneAndUpdate(filter, data, { new: true });
   return contact;
 }
 
-export async function updateContactStatus(contactId, data) {
-  const contact = await Contact.findByIdAndUpdate(contactId, data, { new: true });
+export async function updateContactStatus(filter, data) {
+  const contact = await Contact.findOneAndUpdate(filter, data, { new: true });
   return contact;
 }
