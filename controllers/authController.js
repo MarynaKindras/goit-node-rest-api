@@ -3,6 +3,7 @@ import controllerWrapper from "../decorators/controllerWrapper.js";
 import HttpError from "../helpers/HttpError.js";
 import * as userService from "../services/userServices.js";
 import { createToken } from "../helpers/jwt.js";
+import gravatar from "gravatar";
 
 export const register = async (req, res) => {
   const { email } = req.body;
@@ -11,13 +12,20 @@ export const register = async (req, res) => {
     throw HttpError(409, "Email in use");
   }
 
+  const avatarURL = gravatar.url(email, { s: "200", d: "mp" });
+
+  const body = {
+    ...req.body,
+    avatarURL,
+  };
+
   const newUser = await userService.saveUser(req.body);
 
   res.status(201).json({
-   user:{
-    email: newUser.email,
-    subscription: newUser.subscription,
-   }
+    user: {
+      email: newUser.email,
+      subscription: newUser.subscription,
+    },
   });
 };
 
