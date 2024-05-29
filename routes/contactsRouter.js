@@ -4,8 +4,11 @@ import isBodyEmpty from "../middleware/isBodyEmpty.js";
 import validateBody from "../helpers/validateBody.js";
 import { createContactSchema, updateContactSchema, updateStatusContactSchema } from "../schemas/contactsSchemas.js";
 import isValidId from "../middleware/isValidId.js";
+import authorize from "../middleware/authorize.js";
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authorize);
 
 contactsRouter.get("/", contactsController.getAll);
 

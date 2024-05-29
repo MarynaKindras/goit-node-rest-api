@@ -3,6 +3,7 @@ node_modules/
 .idea
 .vscode
 .DS_Store
+db/dump.json
 
 .env
 .env.local
