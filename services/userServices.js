@@ -10,3 +10,5 @@ export const saveUser = async data => {
 };
 
 export const updateUser = (filter, body) => User.findOneAndUpdate(filter, body);
+
+export const removeUsers = () => User.deleteMany();
