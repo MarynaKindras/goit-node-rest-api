@@ -59,23 +59,9 @@ export const current = async (req, res) => {
   res.json({ email, subscription });
 };
 
-export const updateSubscription = async (req, res) => {
-  const { id } = req.user;
-  const { subscription } = req.body;
-
-  const updatedUser = await userService.updateUser({ _id: id }, { subscription });
-
-  res.json({
-    _id: updatedUser._id,
-    email: updatedUser.email,
-    subscription: updatedUser.subscription,
-  });
-};
-
 export default {
   register: controllerWrapper(register),
   login: controllerWrapper(login),
   logout: controllerWrapper(logout),
   current: controllerWrapper(current),
-  updateSubscription: controllerWrapper(updateSubscription),
 };

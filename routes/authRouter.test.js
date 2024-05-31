@@ -4,11 +4,11 @@ import * as userService from "../services/userServices.js";
 import request from "supertest";
 
 const userDto = {
-  email: "che-1@gmail.com",
+  email: "maryna@gmail.com",
   password: "123456",
 };
 
-const PORT = 5050;
+const PORT = 3000;
 const { DB_TEST_HOST } = process.env;
 
 const ENDPOINT_LOGIN = "/api/users/login";
