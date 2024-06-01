@@ -8,7 +8,7 @@ const userDto = {
   password: "123456",
 };
 
-const PORT = 3000;
+const PORT = 3030;
 const { DB_TEST_HOST } = process.env;
 
 const ENDPOINT_LOGIN = "/api/users/login";
