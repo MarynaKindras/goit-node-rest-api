@@ -49,7 +49,7 @@ describe("test /api/users/login", () => {
   test("login with wrong credentials", async () => {
     const { body, statusCode } = await request(app)
       .post(ENDPOINT_LOGIN)
-      .send({ email: "_che-1@gmail.com", password: "654321" });
+      .send({ email: "_maryna@gmail.com", password: "654321" });
 
     expect(statusCode).toBe(401);
     expect(body).toHaveProperty("message");
