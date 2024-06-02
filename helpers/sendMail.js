@@ -6,14 +6,14 @@ const transporter = nodemailer.createTransport({
   port: 465,
   secure: true,
   auth: {
-    user: process.env.GMAIL_COM_MAIL,
-    pass: process.env.GMAIL_COM_PASSWORD,
+    user: process.env.UKR_NET_MAIL,
+    pass: process.env.UKR_NET_PASSWORD,
   },
 });
 
 const sendMail = data =>
   transporter.sendMail({
-    from: process.env.GMAIL_COM_MAIL,
+    from: process.env.UKR_NET_MAIL,
     ...data,
   });
 
