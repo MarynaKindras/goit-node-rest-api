@@ -19,7 +19,7 @@ export const register = async (req, res) => {
     avatarURL,
   };
 
-  const newUser = await userService.saveUser(req.body);
+  const newUser = await userService.saveUser({ ...req.body, avatarURL });
 
   res.status(201).json({
     user: {
