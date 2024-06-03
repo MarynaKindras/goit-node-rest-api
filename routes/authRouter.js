@@ -3,7 +3,7 @@ import isBodyEmpty from "../middleware/isBodyEmpty.js";
 import validateBody from "../helpers/validateBody.js";
 import authController from "../controllers/authController.js";
 import authorize from "../middleware/authorize.js";
-import { authLoginSchema, authRegisterSchema, authSubscriptionSchema } from "../schemas/authSchemas.js";
+import { authEmailSchema, authLoginSchema, authRegisterSchema } from "../schemas/authSchemas.js";
 
 const authRouter = express.Router();
 
@@ -14,5 +14,9 @@ authRouter.post("/login", [isBodyEmpty, validateBody(authLoginSchema)], authCont
 authRouter.post("/logout", [authorize], authController.logout);
 
 authRouter.get("/current", [authorize], authController.current);
+
+authRouter.get("/verify/:verificationToken", authController.verifyEmail);
+
+authRouter.post("/verify", [isBodyEmpty, validateBody(authEmailSchema)], authController.resendVerification);
 
 export default authRouter;
