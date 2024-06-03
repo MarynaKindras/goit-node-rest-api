@@ -18,7 +18,3 @@ export const authSubscriptionSchema = Joi.object({
     .valid(...userSubscriptionValues)
     .required(),
 });
-
-export const authEmailSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
-});

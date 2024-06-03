@@ -2,8 +2,8 @@
   "name": "goit-node-rest-api",
   "type": "module",
   "scripts": {
-    "start": "node ./server.js",
-    "dev": "nodemon ./server.js",
+    "start": "node server",
+    "dev": "nodemon server",
     "test": "cross-env NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "dependencies": {

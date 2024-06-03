@@ -3,6 +3,8 @@ import morgan from "morgan";
 import cors from "cors";
 import router from "./routes/index.js";
 
+import "dotenv/config";
+
 const app = express();
 
 app.use(morgan("tiny"));
