@@ -24,7 +24,7 @@ export const register = async (req, res) => {
 
   const verificationToken = nanoid();
 
-  const newUser = await userService.saveUser({ ...body, verificationToken });
+  const newUser = await userService.saveUser({ ...body, avatarURL, verificationToken });
 
   sendMail(createVerificationEmail(email, verificationToken)).catch(console.error);
 
